@@ -1,6 +1,8 @@
+import DAO.EntraineurDAO
 import dresseur.Entraineur
 import item.Badge
 import item.MonsterKube
+import jdbc.BDD
 import jeu.Partie
 import monde.Zone
 import monstre.EspeceMonstre
@@ -65,6 +67,9 @@ fun nouvellePartie(): Partie {
     val nomJoueur = readln()
     joueur.nom = nomJoueur
     val partie = Partie(1, joueur, route1)
+
+
+
     return partie
 }
 
@@ -73,6 +78,15 @@ fun nouvellePartie(): Partie {
 
 //main
 fun main() {
+
+    //La connexion a la BDD
+    val db = BDD()
+    //Les DAO
+    val entraineurDAO= EntraineurDAO(db)
+
+    //Les listes
+    val listeEntraineur = entraineurDAO.findAll()
+
     route1.zoneSuivante = route2
     route2.zonePrecedente = route1
     route2.zoneSuivante = racailleCity
@@ -90,11 +104,15 @@ fun main() {
 
 
     val partie = nouvellePartie()
+    joueur.id=0
+    entraineurDAO.save(joueur)
     partie.choixStarter()
     println("Équipe du joueur : ${joueur.equipeMonstre.map { it.nom }}")
     for (monstre in joueur.equipeMonstre) {
         println("${monstre.nom} a ${monstre.pv} PV")
     }
+
+    db.close()
 
     partie.jouer()
 }
