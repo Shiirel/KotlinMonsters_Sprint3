@@ -34,7 +34,11 @@ class Entraineur(
     }
 
 
-
+    /**
+     * Soigne les monstres de l'équipe du dresseur.
+     *
+     * Cette méthode remet les PV de tous les monstres de l'équipe au maximum.
+     */
     fun soigneEquipe() {
         for (monstre in equipeMonstre) {
             monstre.pv = monstre.pvMax
@@ -49,30 +53,24 @@ class Entraineur(
      *
      * @return le monstre choisi
      */
-
     fun choisirMonstre() : IndividuMonstre? {
-        var monstresVivants = mutableListOf<IndividuMonstre>()
-        var choixMonstre: IndividuMonstre? = null
-        var choixIndex : Int
-        for (monstre in equipeMonstre) {
-            if (monstre.pv > 0) {
-                monstresVivants.add(monstre)
-            }
-            if (monstresVivants.size >= 1) {
-                println("Choisir un monstre de l'équipe : ")
-                for (i in 0..equipeMonstre.lastIndex) {
-                    println("$i : ${equipeMonstre[i].nom}")
-                }
-                do {
-                    choixIndex = readln().toInt()
-                } while (choixIndex in 0..equipeMonstre.lastIndex)
-                choixMonstre = monstresVivants[choixIndex]
-            } else if (monstresVivants.size == 1) {
-                choixMonstre = monstresVivants[0]
-            } else {
-                println("Aucun monstre vivant dans l'équipe !")
-            }
+        val monstresVivants = equipeMonstre.filter { it.pv > 0 }
+        if (monstresVivants.isEmpty()) {
+            println("Aucun monstre vivant dans l'équipe !")
+            return null
         }
-        return choixMonstre
+        if (monstresVivants.size == 1) {
+            return monstresVivants[0]
+        }
+        println("Choisir un monstre de l'équipe : ")
+        for ((i, monstre) in monstresVivants.withIndex()) {
+            println("$i : ${monstre.nom}")
+        }
+        var choixIndex: Int
+        do {
+            choixIndex = readln().toInt()
+        } while (choixIndex !in 0 until monstresVivants.size)
+        return monstresVivants[choixIndex]
     }
+
 }

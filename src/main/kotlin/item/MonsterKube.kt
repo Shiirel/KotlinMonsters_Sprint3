@@ -3,6 +3,18 @@ import joueur
 import monstre.IndividuMonstre
 import kotlin.random.Random
 
+
+
+/**
+ * Représente un objet MonsterKube permettant au joueur de tenter de capturer un monstre lors d'un combat de monstres.
+ *
+ * La classe MonsterKube hérite de la classe Item et implémente l'interface Utilisable.
+ *
+ * @property id L'identifiant unique du MonsterKube.
+ *  @property nom Le nom du MonsterKube.
+ *  @property description La description du MonsterKube.
+ *  @property chanceCapture Chances de capturer la cible.
+ */
 class MonsterKube(
     id: Int,
     nom: String,
@@ -10,6 +22,13 @@ class MonsterKube(
     var chanceCapture: Double,
 ) : Item(id, nom, description), Utilisable {
 
+    /**
+     * Applique l'effet de l'objet ou de l'action sur le monstre cible.
+     *
+     * @param cible Le [IndividuMonstre] sur lequel l'objet est utilisé.
+     * @return `true` si la capture est réussie,
+     *         `false` sinon.
+     */
     override fun utiliser(cible: IndividuMonstre): Boolean {
         val res = true
         println("Vous lancez le Monster Kube !")

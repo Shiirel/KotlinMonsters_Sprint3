@@ -8,12 +8,11 @@ import monde.Zone
 import monstre.EspeceMonstre
 import monstre.IndividuMonstre
 import jeu.*
+import monde.Arene
 import monde.Ville
 import monstre.PalierEvolution
 
-//Déclarations d'objets et de variables
-public var joueur = Entraineur(1, "Sacha", 100)
-
+/*Déclarations des espèces*/
 var especeSpringleaf = EspeceMonstre(1,"springleaf","graine",60,9,11,10,12,14,34.0,6.5,9.0,8.0,7.0,10.0,"Petit monstre espiègle rond comme une graine, adore le soleil.","Sa feuille sur la tête indique son humeur.","Curieux, amical, timide")
 var especeFlamkip = EspeceMonstre(4,"flamkip","animal",50,12,8,13,16,7,22.0,10.0,5.5,9.5,9.5,6.5,"Petit animal entouré de flammes, déteste le froid.","Sa flamme change d’intensité selon son énergie.","Impulsif, joueur, loyal")
 var especeAquamy = EspeceMonstre(7,"aquamy","meteo",55,10,11,9,14,14,27.0,9.0,10.0,7.5,12.0,12.0,"Créature vaporeuse semblable à un nuage, produit des gouttes pures.","Fait baisser la température en s’endormant.","Calme, rêveur, mystérieux")
@@ -21,20 +20,39 @@ var especeLaoumi = EspeceMonstre(8,"laoumi","animal",58,11,10,9,8,11,23.0,11.0,8
 var especeBugsyface = EspeceMonstre(10,"bugsyface","insecte",45,10,13,8,7,13,21.0,7.0,11.0,6.5,8.0,11.5,"Insecte à carapace luisante, se déplace par bonds et vibre des antennes.","Sa carapace devient plus dure après chaque mue.","Travailleur, sociable, infatigable")
 var especeGalum = EspeceMonstre(13,"galum","minéral",55,12,15,6,8,12,13.0,9.0,13.0,4.0,6.5,10.5,"Golem ancien de pierre, yeux lumineux en garde.","Peut rester immobile des heures comme une statue.","Sérieux, stoïque, fiable")
 val especePyrokip = EspeceMonstre(id = 5, nom = "pyrokip", type = "Animal", baseAttaque = 18, baseDefense = 12, baseVitesse = 15, baseAttaqueSpe = 22, baseDefenseSpe = 11, basePv = 70, modAttaque = 12.0, modDefense = 8.0, modVitesse = 11.0, modAttaqueSpe = 12.5, modDefenseSpe = 8.0, modPv = 15.0, description = "Pyrokip, l’évolution de Flamkip. Son feu est devenu intense et ses flammes sont capables de fondre la pierre. Fier et courageux, il protège son dresseur à tout prix.", particularites = "Ses flammes changent de couleur selon son humeur : rouge vif en colère, dorées quand il est calme.", caractères = "Fier, protecteur, explosif.")//, elements = mutableListOf(feu))
+val especeBoolette = EspeceMonstre(20, "Boolette", "Spectre", 40, 8, 10, 12, 6, 7, 1.2, 1.1, 1.0, 1.0, 1.0, 1.0, "Un petit fantôme joueur qui aime les cachettes et les farces.", "Peut disparaître dans un nuage de fumée.", "Esprit libre, affectueux, timide.")
+
+/*Déclarations des dresseurs*/
+public var joueur = Entraineur(1, "Sacha", 100)
+val dresseur1 = Entraineur(2,"Alice",35)
+val dresseur2 = Entraineur(3,"Lale",250)
+val dresseur3 = Entraineur(4,"Asli",100)
+
+/*Déclarations des monstres*/
+val monstre1 = IndividuMonstre(1, "springleaf", especeSpringleaf, dresseur1, 30.0)
+val monstre2 = IndividuMonstre(2, "flamkip", especeFlamkip, dresseur1, 15.0)
+val monstre3 = IndividuMonstre(3, "aquamy", especeAquamy, dresseur2, 55.0)
+val monstre4 = IndividuMonstre(1, "bugsyface", especeBugsyface, dresseur1, 10.0)
+val monstre5 = IndividuMonstre(2, "galum", especeGalum, dresseur3, 65.0)
+val monstre6 = IndividuMonstre(3, "laoumi", especeLaoumi, dresseur3, 30.0)
 
 
+/*Création Arène*/
+var arene1 = Arene(1,"Arène de Pierre",mutableListOf(dresseur1,dresseur2,dresseur3),dresseur3)
 
+/*Création des objets Zone et Ville*/
 var route1 = Zone(1,"bramblewood",20,mutableListOf(especeSpringleaf,especeBugsyface))
 var route2 = Zone(2,"moonwood",45,mutableListOf(especeGalum))
-var racailleCity = Ville(3,"RacailleCity",30,mutableListOf(especeFlamkip))
+var racailleCity = Ville(3,"RacailleCity",30,mutableListOf(especeFlamkip),null,null,arene1)
 
-
+/*Création des objets Items*/
 var objet1 = MonsterKube(1,"cube","description",280.0)
 val badge = Badge(1,"Badge Roche","Badge gagné lorsque le joueur atteint l'arène de pierre.")
 
 var palierEvolutionFlamkip = PalierEvolution(1,7,especePyrokip)
 
-//Fonctions et méthodes
+
+/*FONCTIONS*/
 
 /**
  * Change la couleur du message donné selon le nom de la couleur spécifié.
@@ -62,13 +80,19 @@ fun changeCouleur(message: String, couleur:String=""): String {
     return "$codeCouleur$message$reset"
 }
 
+/**
+ * Crée une nouvelle partie.
+ *
+ * Cette fonction invite le joueur à saisir son nom puis crée un nouvel objet Partie
+ * La partie commence dans la zone "bramblewood".
+ *
+ * @return un objet Partie
+ */
 fun nouvellePartie(): Partie {
     println("Quel est ton nom ?")
     val nomJoueur = readln()
     joueur.nom = nomJoueur
     val partie = Partie(1, joueur, route1)
-
-
 
     return partie
 }
@@ -76,17 +100,19 @@ fun nouvellePartie(): Partie {
 
 
 
-//main
+/*MAIN*/
 fun main() {
 
-    //La connexion a la BDD
+    /*Connexion à la BDD*/
     val db = BDD()
-    //Les DAO
+
+    /*DAO*/
     val entraineurDAO= EntraineurDAO(db)
 
-    //Les listes
+    /*Liste*/
     val listeEntraineur = entraineurDAO.findAll()
 
+    /*Environnement du jeu*/
     route1.zoneSuivante = route2
     route2.zonePrecedente = route1
     route2.zoneSuivante = racailleCity
@@ -102,7 +128,7 @@ fun main() {
 
     joueur.sacAItems.add(objet1)
 
-
+    /*Lancement nouvelle partie*/
     val partie = nouvellePartie()
     joueur.id=0
     entraineurDAO.save(joueur)

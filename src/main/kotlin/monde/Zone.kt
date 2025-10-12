@@ -5,6 +5,7 @@ import monstre.EspeceMonstre
 import monstre.IndividuMonstre
 import kotlin.random.Random
 
+
 /**
  * Représente un lieu où le joueur peut se déplacer et rencontrer des monstres.
  *
@@ -19,7 +20,6 @@ import kotlin.random.Random
  * @property zonePrecedente
 
  */
-
 open class Zone (
     var id : Int,
     var nom : String,
@@ -31,6 +31,9 @@ open class Zone (
     var listeMonstres: MutableList<IndividuMonstre> = mutableListOf()
 
 
+    /**
+     * Génère un monstre dans la zone active.
+     */
     fun genereMonstre(): IndividuMonstre {
 
         var idMonstreGenere = 0
@@ -63,6 +66,9 @@ open class Zone (
     }
 
 
+    /**
+     * Permet au joueur de démarrer un combat avec un monstre sauvage lorsqu'il se rend dans une zone.
+     */
     fun rencontreMonstre() {
         val monstreSauvage = genereMonstre()
         var monstreJoueurActif: IndividuMonstre? = null

@@ -7,6 +7,28 @@ import kotlin.math.pow
 import kotlin.math.round
 import monstre.PalierEvolution
 
+
+/**
+ * Représente un individu monstre dans le contexte du jeu.
+ *
+ * Un individu monstre appartient à une espèce et peut être lié à un dresseur.
+ *
+ * @property id L'identifiant unique de l'individu.
+ * @property nom Le nom de l'individu.
+ * @property espece L'espèce de l'indivu.
+ * @property entraineur Le dresseur auquel est relié le monstre
+ * @property expInit
+ * @property niveau Niveau 1 par défaut
+ * @property attaque
+ * @property defense
+ * @property vitesse
+ * @property attaqueSpe
+ * @property defenseSpe
+ * @property pvMax
+ * @property potentiel
+ * @property exp
+ * @property pv
+ */
 class IndividuMonstre (
     var id : Int,
     var nom : String,
@@ -100,68 +122,78 @@ class IndividuMonstre (
     }
 
 
-        /**
-         * Attaque un autre [IndividuMonstre] et inflige des dégâts.
-         *
-         * Les dégâts sont calculés de manière très simple pour le moment :
-         * `dégâts = attaque - (défense / 2)` (minimum 1 dégât).
-         *
-         * @param cible Monstre cible de l'attaque.
-         */
-        fun attaquer(cible: IndividuMonstre) {
-            val degaBrut = this.attaque
-            var degatTotal = degaBrut - (cible.defense / 2)
-            if (degatTotal < 1) {
-                degatTotal = 1
-            }
-            val pvAvant = cible.pv
-            cible.pv -= degatTotal
-
-            val pvApres = cible.pv
-            println("$nom inflige ${pvAvant - pvApres} dégâts à ${cible.nom}")
+    /**
+     * Attaque un autre [IndividuMonstre] et inflige des dégâts.
+     *
+     * Les dégâts sont calculés de manière très simple pour le moment :
+     * `dégâts = attaque - (défense / 2)` (minimum 1 dégât).
+     *
+     * @param cible Monstre cible de l'attaque.
+     */
+    fun attaquer(cible: IndividuMonstre) {
+        val degaBrut = this.attaque
+        var degatTotal = degaBrut - (cible.defense / 2.0).toInt() // <== forcer calcul réel
+        if (degatTotal < 1) {
+            degatTotal = 1
         }
 
-        /**
-         * Demande au joueur de renommer le monstre.
-         * Si l'utilisateur entre un texte vide, le nom n'est pas modifié.
-         */
-        fun renommer() {
-            println("Renommer $nom ?")
-            print("Nouveau nom : ")
-            val nouveauNom = readln()
-            if (nouveauNom.isNotEmpty()) {
-                this.nom = nouveauNom
-            }
+        val pvAvant = cible.pv
+        var nouveauPv = cible.pv - degatTotal
+        if (nouveauPv < 0) {
+            nouveauPv = 0
         }
+        cible.pv = nouveauPv
+
+        val pvApres = cible.pv
+        println("$nom inflige ${pvAvant - pvApres} dégâts à ${cible.nom}")
+    }
 
 
-        /**
-         * Affiche les caractéristiques du monstre et son art.
-         */
-        fun afficheDetail() {
-            val listeDetails = mutableMapOf<String, String>(
-                "Nom: " to this.nom,
-                "Niveau: " to this.niveau.toString(),
-                "Exp: " to this.exp.toString(),
-                "PV: " to this.pv.toString(),
-            )
-            val listeDetails2 = mutableMapOf<String, String>(
-                "Atq: " to this.attaque.toString(),
-                "Def: " to this.defense.toString(),
-                "Vitesse: " to this.vitesse.toString(),
-                "AtqSpe: " to this.attaqueSpe.toString(),
-                "DefSpe: " to this.defenseSpe.toString()
-            )
-            print(this.espece.afficheArt())
-            println("=================================================")
-            println(listeDetails)
-            println("=================================================")
-            println(listeDetails2)
-            println("=================================================")
+    /**
+     * Demande au joueur de renommer le monstre.
+     * Si l'utilisateur entre un texte vide, le nom n'est pas modifié.
+     */
+    fun renommer() {
+        println("Renommer $nom ?")
+        print("Nouveau nom : ")
+        val nouveauNom = readln()
+        if (nouveauNom.isNotEmpty()) {
+            this.nom = nouveauNom
         }
+    }
 
-        fun evoluer() {
-            this.espece = espece.palierEvolution!!.evolution
-            println("Le monstre a évolué en ${this.espece}")
-        }
+
+    /**
+     * Affiche les caractéristiques du monstre et son art.
+     */
+    fun afficheDetail() {
+        val listeDetails = mutableMapOf<String, String>(
+            "Nom: " to this.nom,
+            "Niveau: " to this.niveau.toString(),
+            "Exp: " to this.exp.toString(),
+            "PV: " to this.pv.toString(),
+        )
+        val listeDetails2 = mutableMapOf<String, String>(
+            "Atq: " to this.attaque.toString(),
+            "Def: " to this.defense.toString(),
+            "Vitesse: " to this.vitesse.toString(),
+            "AtqSpe: " to this.attaqueSpe.toString(),
+            "DefSpe: " to this.defenseSpe.toString()
+        )
+        print(this.espece.afficheArt())
+        println("=================================================")
+        println(listeDetails)
+        println("=================================================")
+        println(listeDetails2)
+        println("=================================================")
+    }
+
+
+    /**
+     * Fait évoluer un monstre.
+     */
+    fun evoluer() {
+        this.espece = espece.palierEvolution!!.evolution
+        println("Le monstre a évolué en ${this.espece}")
+    }
 }
