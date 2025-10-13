@@ -64,6 +64,17 @@ Le package Monstre comporte trois classes intégrant les différentes espèces d
 - La classe EspeceMonstre représente les especes de monstres
 - La classe IndividuMonstre représente un monstre, appartenant à une espèce et parfois relié à un dresseur. Cette classe contient les méthodes nécessaires pour la gestion de l'évolution d'un monstre.
 - La classe PalierEvolution permet de créer les espèces évoluées et contient une méthode déterminant si le monstre a atteint le niveau requis pour générer son évolution.
+
+
+#### F) Package DAO
+
+Le package DAO centralise les interactions avec la base. Elle contient trois classes correspondant chacune à une table (Entraineurs,EspeceMonstre,IndividuMonstre).
+
+- La classe EntraineursDAO gère les opérations CRUD avec la base Entraineurs. Elle contient six méthodes.
+- La classe EspeceMonstreDAO intéragit avec la base de données EspeceMonstre
+- La classe IndividuMonstreDAO intéragit avec la base IndividuMonstre et gère les relations avec EspecesMonstre et Entraineur.
+
+#### G) Package jdbc
 ---
 ## III. DIFFICULTEES RENCONTREES
 

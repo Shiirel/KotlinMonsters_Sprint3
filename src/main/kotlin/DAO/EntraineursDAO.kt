@@ -2,6 +2,7 @@ package DAO
 
 import dresseur.Entraineur
 import jdbc.BDD
+import java.sql.*
 import java.sql.PreparedStatement
 import java.sql.SQLException
 import java.sql.Statement
@@ -136,8 +137,7 @@ class EntraineurDAO(val bdd: BDD) {
     }
 
 
-    /*
-    **
+    /**
     * Supprime un entraîneur par son identifiant.
     *
     * @param id L'ID de l'entraîneur à supprimer.

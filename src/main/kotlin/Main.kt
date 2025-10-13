@@ -1,4 +1,6 @@
 import DAO.EntraineurDAO
+import DAO.EspeceMonstreDAO
+import DAO.IndividuMonstreDAO
 import dresseur.Entraineur
 import item.Badge
 import item.MonsterKube
@@ -12,6 +14,17 @@ import monde.Arene
 import monde.Ville
 import monstre.PalierEvolution
 
+//La connexion a la BDD
+val db = BDD()
+//Les DAO
+val entraineurDAO= EntraineurDAO(db)
+val especeMonstreDAO = EspeceMonstreDAO(db)
+val individusMonstreDAO = IndividuMonstreDAO(db)
+//Les listes DAO
+val listeEntraineur = entraineurDAO.findAll()
+val listeEspeces = especeMonstreDAO.findAll()
+val listeIndividus = individusMonstreDAO.findAll()
+
 /*Déclarations des espèces*/
 var especeSpringleaf = EspeceMonstre(1,"springleaf","graine",60,9,11,10,12,14,34.0,6.5,9.0,8.0,7.0,10.0,"Petit monstre espiègle rond comme une graine, adore le soleil.","Sa feuille sur la tête indique son humeur.","Curieux, amical, timide")
 var especeFlamkip = EspeceMonstre(4,"flamkip","animal",50,12,8,13,16,7,22.0,10.0,5.5,9.5,9.5,6.5,"Petit animal entouré de flammes, déteste le froid.","Sa flamme change d’intensité selon son énergie.","Impulsif, joueur, loyal")
@@ -20,6 +33,7 @@ var especeLaoumi = EspeceMonstre(8,"laoumi","animal",58,11,10,9,8,11,23.0,11.0,8
 var especeBugsyface = EspeceMonstre(10,"bugsyface","insecte",45,10,13,8,7,13,21.0,7.0,11.0,6.5,8.0,11.5,"Insecte à carapace luisante, se déplace par bonds et vibre des antennes.","Sa carapace devient plus dure après chaque mue.","Travailleur, sociable, infatigable")
 var especeGalum = EspeceMonstre(13,"galum","minéral",55,12,15,6,8,12,13.0,9.0,13.0,4.0,6.5,10.5,"Golem ancien de pierre, yeux lumineux en garde.","Peut rester immobile des heures comme une statue.","Sérieux, stoïque, fiable")
 val especePyrokip = EspeceMonstre(id = 5, nom = "pyrokip", type = "Animal", baseAttaque = 18, baseDefense = 12, baseVitesse = 15, baseAttaqueSpe = 22, baseDefenseSpe = 11, basePv = 70, modAttaque = 12.0, modDefense = 8.0, modVitesse = 11.0, modAttaqueSpe = 12.5, modDefenseSpe = 8.0, modPv = 15.0, description = "Pyrokip, l’évolution de Flamkip. Son feu est devenu intense et ses flammes sont capables de fondre la pierre. Fier et courageux, il protège son dresseur à tout prix.", particularites = "Ses flammes changent de couleur selon son humeur : rouge vif en colère, dorées quand il est calme.", caractères = "Fier, protecteur, explosif.")//, elements = mutableListOf(feu))
+///CREATION NOUVELLE ESPECE///
 val especeBoolette = EspeceMonstre(20, "Boolette", "Spectre", 40, 8, 10, 12, 6, 7, 1.2, 1.1, 1.0, 1.0, 1.0, 1.0, "Un petit fantôme joueur qui aime les cachettes et les farces.", "Peut disparaître dans un nuage de fumée.", "Esprit libre, affectueux, timide.")
 
 /*Déclarations des dresseurs*/
@@ -103,14 +117,7 @@ fun nouvellePartie(): Partie {
 /*MAIN*/
 fun main() {
 
-    /*Connexion à la BDD*/
-    val db = BDD()
-
-    /*DAO*/
-    val entraineurDAO= EntraineurDAO(db)
-
-    /*Liste*/
-    val listeEntraineur = entraineurDAO.findAll()
+    //especeBoolette.afficheArt()
 
     /*Environnement du jeu*/
     route1.zoneSuivante = route2
