@@ -75,17 +75,44 @@ Le package DAO centralise les interactions avec la base. Elle contient trois cla
 - La classe IndividuMonstreDAO intéragit avec la base IndividuMonstre et gère les relations avec EspecesMonstre et Entraineur.
 
 #### G) Package jdbc
+
+Le package jdbc contient la classe BDD qui gère la connexion à une base de données et l'exécution de requêtes SQL.
+
+
 ---
 ## III. DIFFICULTEES RENCONTREES
 
 ### A) Sprint 1
 
+Les classes du premier sprint ont généré de nombreuses erreurs au début, notamment des erreurs du type Unresolved Reference.
+J’ai appris à les corriger en analysant les messages d’erreur et en consultant des forums en ligne.
+
+Exemple d'erreur :
+![diagramme ERD](/docs/bug1-unresolvedFileReference.png)
+
+La méthode genereMonstre de la classe Zone (package monde) a été difficile à mettre en classe. j'ai dû essayer différentes stratégies pour m'assurer que le monstre généré a une id unique.
+
+
 ### B) Sprint 2
 
+Les difficultés du sprint 2 concernaient surtout la logique des algorithmes :
+j'ai parfois eu du mal à comprendre la logique des diagrammes 
+
+
 ### C) Sprint 3
+Capture du diagramme ERD réalisé : 
+
+![diagramme ERD](/docs/captureERD.png)
+
+Le sprint 3 a été plus rapide à implémenter, mais certaines erreurs ont été rencontrées lors de la création du package DAO, notamment à cause de mauvais labels et de mauvaises relations de clés étrangères.
 
 ---
 ### IV. CONCLUSION
 
+Ce projet m’a permis d’approfondir plusieurs aspects de la programmation orientée objet.
+J’ai notamment appris à réaliser des tests fonctionnels et unitaires, ce qui m’a aidé à vérifier la fiabilité et le bon fonctionnement du programme au fur et à mesure de son avancement.
 
+J’ai également développé ma capacité à identifier et corriger des bugs, en apprenant à analyser les messages d’erreur, et à rechercher des solutions pertinentes.
+
+Enfin, j’ai découvert comment intégrer et manipuler une base de données à travers la mise en place du package DAO et de la classe BDD. Cette partie m’a permis de mieux comprendre la communication entre une application et une base de données, ainsi que l’importance d’une bonne structure pour les échanges de données.
 
